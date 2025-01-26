@@ -19,8 +19,11 @@ jobs:
           java-version: "11"
           distribution: "temurin" # Указание дистрибутива Java
 
+      - name: Установить Graphviz
+        run: sudo apt-get install graphviz -y # Установка Graphviz
+
       - name: Установить PlantUML
-        run: sudo apt-get install plantuml -y
+        run: sudo apt-get install plantuml -y # Установка PlantUML
 
       - name: Генерация диаграмм
         run: |
