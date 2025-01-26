@@ -4,38 +4,36 @@ on:
   push:
     branches:
       - sprint_3
-  pull_request:
-    branches:
-      - main
 
 jobs:
   generate-diagrams:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Склонировать репозиторий
         uses: actions/checkout@v2
 
-      - name: Set up Java
+      - name: Установить Java
         uses: actions/setup-java@v2
         with:
           java-version: "11"
+          distribution: "temurin" # Указание дистрибутива Java
 
-      - name: Install PlantUML
-        run: sudo apt-get install plantuml
+      - name: Установить PlantUML
+        run: sudo apt-get install plantuml -y
 
-      - name: Generate Diagrams
+      - name: Генерация диаграмм
         run: |
           plantuml diagrams/context/*.puml
           plantuml diagrams/container/*.puml
           plantuml diagrams/component/*.puml
           plantuml diagrams/code/*.puml
 
-      - name: Commit Diagrams
+      - name: Коммит диаграмм
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add diagrams/**/*.png
-          git commit -m "Automated diagram generation"
+          git commit -m "Автоматическая генерация диаграмм"
           git push origin main
         if: success()
