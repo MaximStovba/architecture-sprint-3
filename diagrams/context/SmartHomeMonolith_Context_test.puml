@@ -1,0 +1,8 @@
+@startuml SmartHomeSystem
+title Smart Home Context Diagram
+
+Person(user, "User", "End user of the smart home system")
+System(SmartHomeSystem, "Smart Home System", "Monolithic system for managing heating and temperature")
+Rel(user, SmartHomeSystem, "Sends commands")
+Rel(SmartHomeSystem, user, "Responds with status")
+@enduml
