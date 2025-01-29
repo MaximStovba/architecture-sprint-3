@@ -1,0 +1,31 @@
+@startuml
+title Temperature Service Component Diagram
+
+top to bottom direction
+
+!include C4_Component.puml
+
+' Define Temperature Service Components
+Container_Boundary(TemperatureService, "Temperature Service") {
+    Component(TemperatureController, "TemperatureController", "Handles HTTP requests for temperature monitoring")
+    Component(TemperatureServiceImpl, "TemperatureServiceImpl", "Business logic for temperature processing")
+    Component(TemperatureRepository, "TemperatureRepository", "Data access layer for sensor temperature readings")
+    Component(TemperatureEventPublisher, "TemperatureEventPublisher", "Publishes temperature events to Kafka")
+}
+
+' External Interactions
+ContainerDb(SensorDB, "PostgreSQL", "Stores temperature sensor data")
+Container(MessageBroker, "Kafka", "Event Streaming Platform", "Handles asynchronous communication")
+Container(API_Gateway, "API Gateway", "Routes external API calls")
+Container(Sensor, "Temperature Sensor", "Sends real-time temperature data")
+
+' Relationships
+Rel(Sensor, TemperatureServiceImpl, "Sends temperature updates")
+Rel(API_Gateway, TemperatureController, "Routes temperature queries")
+Rel(TemperatureController, TemperatureServiceImpl, "Processes temperature requests")
+Rel(TemperatureServiceImpl, TemperatureRepository, "Queries and stores temperature data")
+Rel(TemperatureRepository, SensorDB, "Stores and retrieves sensor temperature readings")
+Rel(TemperatureServiceImpl, TemperatureEventPublisher, "Publishes temperature events")
+Rel(TemperatureEventPublisher, MessageBroker, "Sends events to Kafka")
+
+@enduml

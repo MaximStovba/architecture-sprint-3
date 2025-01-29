@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Smart Device Telemetry API
+  version: "1.0.0"
+  description: API for sending and processing telemetry data and device state change events.
+
+servers:
+  - url: kafka://broker.example.com:9092
+    description: Kafka broker
+
+paths:
+  /telemetry/data:
+    post:
+      summary: Sending telemetry data
+      description: Receives and processes data on temperature, humidity, and energy consumption.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device_id:
+                  type: string
+                  description: Unique device identifier
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: Event timestamp
+                data:
+                  type: object
+                  properties:
+                    temperature:
+                      type: number
+                      format: float
+                      description: Temperature in degrees Celsius
+                    humidity:
+                      type: integer
+                      description: Humidity in percentage
+      responses:
+        "202":
+          description: Telemetry data accepted for processing
+        "400":
+          description: Invalid request format
+
+  /events/device-updates:
+    post:
+      summary: Sending device state change events
+      description: Sends an event when a device state changes to ensure up-to-date data in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  type: string
+                  description: Event type (e.g., DEVICE_STATE_CHANGED)
+                device_id:
+                  type: string
+                  description: Unique device identifier
+                new_status:
+                  type: string
+                  description: New device state (e.g., 'on' or 'off')
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: Event timestamp
+      responses:
+        "202":
+          description: Event received for processing

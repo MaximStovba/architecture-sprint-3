@@ -1,0 +1,34 @@
+@startuml
+title Integration Service Component Diagram
+
+top to bottom direction
+
+!include C4_Component.puml
+
+' Define Integration Service Components
+Container_Boundary(IntegrationService, "Integration Service") {
+    Component(IntegrationController, "IntegrationController", "Handles HTTP requests for third-party integrations")
+    Component(IntegrationServiceImpl, "IntegrationServiceImpl", "Business logic for external API integration and data processing")
+    Component(IntegrationRepository, "IntegrationRepository", "Data access layer for integration configurations and logs")
+    Component(IntegrationEventPublisher, "IntegrationEventPublisher", "Publishes integration events to Kafka")
+    Component(IntegrationEventConsumer, "IntegrationEventConsumer", "Consumes external events from Kafka")
+}
+
+' External Interactions
+ContainerDb(IntegrationDB, "PostgreSQL", "Stores integration configurations and logs")
+Container(MessageBroker, "Kafka", "Event Streaming Platform", "Handles asynchronous communication")
+Container(API_Gateway, "API Gateway", "Routes external API calls")
+System_Ext(ThirdPartyAPI, "Third-Party API", "External service for smart home integrations")
+
+' Relationships
+Rel(API_Gateway, IntegrationController, "Routes integration requests")
+Rel(IntegrationController, IntegrationServiceImpl, "Processes integration logic")
+Rel(IntegrationServiceImpl, IntegrationRepository, "Queries and stores integration data")
+Rel(IntegrationRepository, IntegrationDB, "Stores and retrieves integration configurations and logs")
+Rel(IntegrationServiceImpl, ThirdPartyAPI, "Fetches data from third-party systems")
+Rel(IntegrationServiceImpl, IntegrationEventPublisher, "Publishes integration events")
+Rel(IntegrationEventPublisher, MessageBroker, "Sends events to Kafka")
+Rel(MessageBroker, IntegrationEventConsumer, "Receives external integration events")
+Rel(IntegrationEventConsumer, IntegrationServiceImpl, "Processes consumed events")
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+title Heating Service Component Diagram
+
+top to bottom direction
+
+!include C4_Component.puml
+
+' Define Heating Service Components
+Container_Boundary(HeatingService, "Heating Service") {
+    Component(HeatingController, "HeatingController", "Handles HTTP requests for heating management")
+    Component(HeatingServiceImpl, "HeatingServiceImpl", "Business logic for managing heating system state")
+    Component(HeatingRepository, "HeatingRepository", "Data access layer for heating system")
+    Component(HeatingEventPublisher, "HeatingEventPublisher", "Publishes heating system events to Kafka")
+    Component(HeatingEventConsumer, "HeatingEventConsumer", "Consumes heating system events from Kafka")
+}
+
+' External Interactions
+ContainerDb(HeatingDB, "PostgreSQL", "Stores heating system data")
+Container(MessageBroker, "Kafka", "Event Streaming Platform", "Handles asynchronous communication")
+Container(API_Gateway, "API Gateway", "Routes external API calls")
+
+' Relationships
+Rel(API_Gateway, HeatingController, "Routes heating requests")
+Rel(HeatingController, HeatingServiceImpl, "Processes heating commands")
+Rel(HeatingServiceImpl, HeatingRepository, "Queries and updates heating system state")
+Rel(HeatingRepository, HeatingDB, "Stores and retrieves heating data")
+Rel(HeatingServiceImpl, HeatingEventPublisher, "Publishes heating events")
+Rel(HeatingEventPublisher, MessageBroker, "Sends events to Kafka")
+Rel(MessageBroker, HeatingEventConsumer, "Receives heating events from Kafka")
+Rel(HeatingEventConsumer, HeatingServiceImpl, "Processes consumed heating events")
+
+@enduml

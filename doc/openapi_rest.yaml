@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: Smart Home API
+  description: API for managing smart home devices, homes, telemetry, and automation.
+  version: 1.0.0
+servers:
+  - url: https://api.smarthome.com/v1
+    description: Production Server
+
+paths:
+  /devices/{deviceId}:
+    get:
+      summary: Retrieve device details
+      description: Fetch detailed information about a specific smart device, including its type, status, and associated home.
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved device details
+          content:
+            application/json:
+              example:
+                id: "device-123"
+                type: "Smart Light"
+                status: "on"
+                house_id: "house-456"
+        "404":
+          description: Device not found
+
+  /devices/{deviceId}/state:
+    put:
+      summary: Modify device state
+      description: Update the status of a device, turning it on or off remotely.
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              status: "off"
+      responses:
+        "200":
+          description: Device state updated successfully
+        "404":
+          description: Device not found
+        "500":
+          description: Internal server error
+
+  /houses/{houseId}/devices:
+    get:
+      summary: List all devices in a house
+      description: Retrieve all smart devices associated with a specific home.
+      parameters:
+        - name: houseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved device list
+          content:
+            application/json:
+              example:
+                - id: "device-123"
+                  type: "Smart Light"
+                  status: "on"
+                - id: "device-789"
+                  type: "Thermostat"
+                  status: "off"
+        "404":
+          description: House not found
