@@ -1,0 +1,71 @@
+@startuml 
+title Smart Home Container Diagram
+
+top to bottom direction
+
+!include ../C4_Component.puml
+
+' Define System
+System_Boundary(SmartHomeSystem, "Smart Home System") {
+    Container(API_Gateway, "API Gateway", "Kusk Gateway", "Handles external requests and routes them to services")
+    Container(HeatingService, "Heating Service", "Spring Boot", "Manages heating system state and settings")
+    Container(TemperatureService, "Temperature Monitoring Service", "Spring Boot", "Monitors real-time temperature data")
+    Container(LightingService, "Lighting Service", "Spring Boot", "Manages smart lighting system")
+    Container(SecurityService, "Security Service", "Spring Boot", "Manages smart locks and gates")
+    Container(CameraService, "Camera Monitoring Service", "Spring Boot", "Handles video surveillance and remote monitoring")
+    Container(UserAutomationService, "User Automation Service", "Spring Boot", "Manages user-defined automation scenarios")
+    Container(NotificationService, "Notification Service", "Spring Boot", "Handles alerts and notifications for users")
+    Container(IntegrationService, "Integration Service", "Spring Boot", "Handles third-party device and API integrations")
+    Container(DeviceManagementService, "Device Management Service", "Spring Boot", "Handles device state management and command processing")
+    Container(MessageBroker, "Kafka", "Event Streaming Platform", "Handles asynchronous communication between services")
+    
+    ContainerDb(HeatingDB, "PostgreSQL", "Stores heating system data")
+    ContainerDb(SensorDB, "PostgreSQL", "Stores sensor temperature data")
+    ContainerDb(LightingDB, "PostgreSQL", "Stores lighting system data")
+    ContainerDb(SecurityDB, "PostgreSQL", "Stores security system data")
+    ContainerDb(CameraDB, "PostgreSQL", "Stores video surveillance data")
+    ContainerDb(NotificationDB, "PostgreSQL", "Stores user notification preferences and logs")
+}
+
+' Define External Entities
+Person(user, "User", "End user interacting with the smart home system")
+System_Ext(sensor, "Temperature Sensor", "Sends real-time temperature updates")
+System_Ext(light, "Smart Light", "Receives commands for turning lights on/off")
+System_Ext(lock, "Smart Lock", "Handles door and gate locking/unlocking")
+System_Ext(camera, "Smart Camera", "Streams live video and stores footage")
+System_Ext(thirdPartyAPI, "Third-Party API", "External service for integrating smart home devices")
+
+' Relationships
+Rel(user, API_Gateway, "Sends commands to control home automation")
+Rel(API_Gateway, HeatingService, "Routes heating requests")
+Rel(API_Gateway, TemperatureService, "Routes temperature queries")
+Rel(API_Gateway, LightingService, "Routes lighting control requests")
+Rel(API_Gateway, SecurityService, "Routes security control requests")
+Rel(API_Gateway, CameraService, "Routes video monitoring requests")
+Rel(API_Gateway, UserAutomationService, "Routes automation configuration requests")
+Rel(API_Gateway, NotificationService, "Routes notification requests")
+Rel(API_Gateway, IntegrationService, "Routes third-party integration requests")
+Rel(API_Gateway, DeviceManagementService, "Routes device management requests")
+
+Rel(HeatingService, HeatingDB, "Stores heating system data")
+Rel(TemperatureService, SensorDB, "Stores sensor temperature data")
+Rel(LightingService, LightingDB, "Stores lighting system data")
+Rel(SecurityService, SecurityDB, "Stores security system data")
+Rel(CameraService, CameraDB, "Stores video surveillance data")
+Rel(NotificationService, NotificationDB, "Stores user notification preferences and logs")
+
+Rel(sensor, TemperatureService, "Sends temperature updates")
+Rel(light, LightingService, "Receives lighting control commands")
+Rel(lock, SecurityService, "Receives security control commands")
+Rel(camera, CameraService, "Streams live video and stores footage")
+Rel(thirdPartyAPI, IntegrationService, "Provides third-party device data")
+
+Rel(TemperatureService, MessageBroker, "Publishes & Consumes temperature events")
+Rel(LightingService, MessageBroker, "Publishes & Consumes lighting events")
+Rel(SecurityService, MessageBroker, "Publishes & Consumes security events")
+Rel(CameraService, MessageBroker, "Publishes & Consumes camera events")
+Rel(NotificationService, MessageBroker, "Publishes & Consumes notification events")
+Rel(IntegrationService, MessageBroker, "Publishes & Consumes third-party integration events")
+Rel(UserAutomationService, MessageBroker, "Publishes & Consumes automation triggers")
+Rel(DeviceManagementService, MessageBroker, "Publishes & Consumes device management events")
+@enduml

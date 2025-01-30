@@ -1,0 +1,62 @@
+@startuml
+
+!include ../C4_Component.puml
+
+title Smart Home ER Diagram
+
+entity User {
+    *id : UUID [PK]
+    --
+    name : String
+    email : String
+    password_hash : String
+}
+
+entity House {
+    *id : UUID [PK]
+    --
+    user_id : UUID [FK]
+    address : String
+    name : String
+}
+
+entity Device {
+    *id : UUID [PK]
+    --
+    house_id : UUID [FK]
+    type_id : UUID [FK]
+    serial_number : String
+    status : String
+}
+
+entity DeviceType {
+    *id : UUID [PK]
+    --
+    name : String
+    category : String
+}
+
+entity Module {
+    *id : UUID [PK]
+    --
+    device_id : UUID [FK]
+    name : String
+    configuration : String
+}
+
+entity TelemetryData {
+    *id : UUID [PK]
+    --
+    device_id : UUID [FK]
+    timestamp : DateTime
+    data : String
+}
+
+' Relationships
+User ||--o{ House : owns
+House ||--o{ Device : contains
+Device ||--o| DeviceType : is_of_type
+Device ||--o{ Module : has
+Device ||--o{ TelemetryData : generates
+
+@enduml

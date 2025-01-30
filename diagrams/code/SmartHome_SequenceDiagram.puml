@@ -1,0 +1,27 @@
+@startuml
+
+!include ../C4_Component.puml
+
+title Device Management Service - Command Processing Sequence
+
+actor User
+participant API_Gateway
+participant DeviceManagementController
+participant CommandProcessor
+participant DeviceStateManager
+database DeviceDB
+participant EventPublisher
+participant Kafka
+
+User -> API_Gateway : Sends device control command
+API_Gateway -> DeviceManagementController : Routes request
+DeviceManagementController -> CommandProcessor : Processes command
+CommandProcessor -> DeviceStateManager : Updates device state
+DeviceStateManager -> DeviceDB : Stores new device state
+CommandProcessor -> EventPublisher : Publishes event to Kafka
+EventPublisher -> Kafka : Sends event
+Kafka -> DeviceManagementService : Consumes device-related event
+DeviceManagementService -> DeviceStateManager : Updates device state based on event
+DeviceStateManager -> DeviceDB : Stores new device state
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+title Device Management Service Component Diagram
+
+top to bottom direction
+
+!include ../C4_Component.puml
+
+' Define Device Management Service Components
+Container_Boundary(DeviceManagementService, "Device Management Service") {
+    Component(DeviceManagementController, "DeviceManagementController", "Handles HTTP requests for device management")
+    Component(CommandProcessor, "CommandProcessor", "Processes commands to control smart devices")
+    Component(DeviceStateManager, "DeviceStateManager", "Manages the current state of smart devices")
+    Component(DeviceEventPublisher, "DeviceEventPublisher", "Publishes device-related events to Kafka")
+    Component(DeviceEventConsumer, "DeviceEventConsumer", "Consumes device-related events from Kafka")
+}
+
+' External Interactions
+ContainerDb(DeviceDB, "PostgreSQL", "Stores device states and configurations")
+Container(MessageBroker, "Kafka", "Event Streaming Platform", "Handles asynchronous communication")
+Container(API_Gateway, "API Gateway", "Routes external API calls")
+System_Ext(Device, "Smart Device", "Represents smart devices such as lights, locks, and sensors")
+
+' Relationships
+Rel(API_Gateway, DeviceManagementController, "Routes device management requests")
+Rel(DeviceManagementController, CommandProcessor, "Sends control commands")
+Rel(CommandProcessor, DeviceStateManager, "Updates device states")
+Rel(DeviceStateManager, DeviceDB, "Stores and retrieves device states")
+Rel(CommandProcessor, DeviceEventPublisher, "Publishes device control events")
+Rel(DeviceEventPublisher, MessageBroker, "Sends events to Kafka")
+Rel(MessageBroker, DeviceEventConsumer, "Receives device-related events")
+Rel(DeviceEventConsumer, DeviceStateManager, "Processes consumed device state updates")
+Rel(DeviceManagementService, Device, "Sends commands and receives status updates")
+
+@enduml
