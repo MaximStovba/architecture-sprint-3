@@ -3,7 +3,7 @@ title Device Management Service Component Diagram
 
 top to bottom direction
 
-!include C4_Component.puml
+!include ../C4_Component.puml
 
 ' Define Device Management Service Components
 Container_Boundary(DeviceManagementService, "Device Management Service") {

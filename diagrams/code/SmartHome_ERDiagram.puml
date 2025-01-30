@@ -1,5 +1,6 @@
 @startuml
-!include C4_Component.puml
+
+!include ../C4_Component.puml
 
 title Smart Home ER Diagram
 

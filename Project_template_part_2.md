@@ -27,8 +27,9 @@ AsyncAPI (Kafka) для асинхронного взаимодействия, �
 
 ### 2. Документация API
 
-[REST API](https://app.swaggerhub.com/apis/maxstv/smart-home-api/1.0.0)
-[AsyncAPI] (https://app.swaggerhub.com/apis/maxstv/smart-device_telemetry_api/1.0.0)
+- [Ссылка на REST API SwaggerHub](https://app.swaggerhub.com/apis/maxstv/smart-home-api/1.0.0)
+
+- [Ссылка на AsyncAPI SwaggerHub](https://app.swaggerhub.com/apis/maxstv/smart-device_telemetry_api/1.0.0)
 
 # ❌ Задание 2. Новые микросервисы и интеграция с монолитом
 

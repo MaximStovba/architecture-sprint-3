@@ -3,7 +3,7 @@ title Temperature Service Component Diagram
 
 top to bottom direction
 
-!include C4_Component.puml
+!include ../C4_Component.puml
 
 ' Define Temperature Service Components
 Container_Boundary(TemperatureService, "Temperature Service") {

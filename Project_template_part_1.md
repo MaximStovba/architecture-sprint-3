@@ -1,8 +1,4 @@
-Это шаблон для решения **первой части** проектной работы. Структура этого файла повторяет структуру заданий. Заполняйте его по мере работы над решением.
-
 # Задание 1. Анализ и планирование
-
-Чтобы составить документ с описанием текущей архитектуры приложения, можно часть информации взять из описания компании условия задания. Это нормально.
 
 ### 1. Описание функциональности монолитного приложения
 
@@ -72,20 +68,26 @@
 
 # Задание 2. Проектирование микросервисной архитектуры
 
-В этом задании вам нужно предоставить только диаграммы в модели C4. Мы не просим вас отдельно описывать получившиеся микросервисы и то, как вы определили взаимодействия между компонентами To-Be системы. Если вы правильно подготовите диаграммы C4, они и так это покажут.
-
 **Диаграмма контейнеров (Containers)**
 
-![Smart Home Container Diagram](./diagrams/container/SmartHome_Container.png)
+- ![Smart Home Container Diagram](./diagrams/container/SmartHome_Container.png)
 
 **Диаграмма компонентов (Components)**
 
-Добавьте диаграмму для каждого из выделенных микросервисов.
+- ![Smart Home Heating Service Component Diagram](./diagrams/component/SmartHome_HeatingService_Component.png)
+
+- ![Smart Home Temperature Service Component Diagram](./diagrams/component/SmartHome_TemperatureService_Component.png)
+
+- ![Smart Home Integration Service Component Diagram](./diagrams/component/SmartHome_IntegrationService_Component.png)
+
+- ![Smart Home Device Management Service Component Diagram](./diagrams/component/SmartHome_ManagementService_Component.png)
 
 **Диаграмма кода (Code)**
 
-Добавьте одну диаграмму или несколько.
+- ![Smart Home Code Diagram](./diagrams/code/SmartHome_CodeDiagram.png)
+
+- ![Smart Home Sequence Diagram](./diagrams/code/SmartHome_SequenceDiagram.png)
 
 # Задание 3. Разработка ER-диаграммы
 
-Добавьте сюда ER-диаграмму. Она должна отражать ключевые сущности системы, их атрибуты и тип связей между ними.
+- ![Smart Home ER-diagram](./diagrams/code/SmartHome_ERDiagram.png)

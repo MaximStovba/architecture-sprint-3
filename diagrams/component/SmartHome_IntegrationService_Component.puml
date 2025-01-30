@@ -3,7 +3,7 @@ title Integration Service Component Diagram
 
 top to bottom direction
 
-!include C4_Component.puml
+!include ../C4_Component.puml
 
 ' Define Integration Service Components
 Container_Boundary(IntegrationService, "Integration Service") {

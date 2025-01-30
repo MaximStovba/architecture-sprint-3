@@ -3,7 +3,7 @@ title Heating Service Component Diagram
 
 top to bottom direction
 
-!include C4_Component.puml
+!include ../C4_Component.puml
 
 ' Define Heating Service Components
 Container_Boundary(HeatingService, "Heating Service") {
